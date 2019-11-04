@@ -87,14 +87,14 @@ contains
 
     endif 
 
-    !----------------------------------------------------------------
-    ! Open NetCDF output files (one for each year)
-    !----------------------------------------------------------------
-    if (verbose) print*, 'initio_nc_() ...'
-    call initio_nc_forcing()
-    call initio_nc_gpp()
-    call initio_nc_waterbal()
-    if (verbose) print*, '... done'
+    ! !----------------------------------------------------------------
+    ! ! Open NetCDF output files (one for each year)
+    ! !----------------------------------------------------------------
+    ! if (verbose) print*, 'initio_nc_() ...'
+    ! call initio_nc_forcing()
+    ! call initio_nc_gpp()
+    ! call initio_nc_waterbal()
+    ! if (verbose) print*, '... done'
 
     !----------------------------------------------------------------
     ! Initialise output variables for this year
@@ -288,12 +288,12 @@ contains
     ! call writeout_ascii_plant()
     ! call writeout_ascii_forcing()
 
-    !----------------------------------------------------------------
-    ! Write to NetCDF output
-    !----------------------------------------------------------------
-    call writeout_nc_forcing()
-    call writeout_nc_gpp()
-    call writeout_nc_waterbal()
+    ! !----------------------------------------------------------------
+    ! ! Write to NetCDF output
+    ! !----------------------------------------------------------------
+    ! call writeout_nc_forcing()
+    ! call writeout_nc_gpp()
+    ! call writeout_nc_waterbal()
 
     ! xxx insignificant
     c_uptake = 0.0

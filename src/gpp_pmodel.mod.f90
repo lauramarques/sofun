@@ -526,13 +526,13 @@ contains
       gstar = calc_gstar( tc )
 
       ! XXX PMODEL_TEST: ok
-      ! print*, 'gstar ', gstar
+      print*, 'gstar ', gstar
 
       ! Michaelis-Menten coef. (Pa)
       kmm  = calc_k( tc, patm )
 
       ! XXX PMODEL_TEST: ok
-      ! print*, 'kmm ', kmm
+      print*, 'kmm ', kmm
 
       ! viscosity correction factor = viscosity( temp, press )/viscosity( 25 degC, 1013.25 Pa) 
       ns      = calc_viscosity_h2o( tc, patm )  ! Pa s 
@@ -540,7 +540,7 @@ contains
       ns_star = ns / ns25                       ! (unitless)
 
       ! XXX PMODEL_TEST: ok
-      ! print*, 'ns_star ', ns_star
+      print*, 'ns_star ', ns_star
 
       select case (method)
 
@@ -578,10 +578,10 @@ contains
       chi = out_lue%chi
 
       ! XXX PMODEL_TEST: ok
-      ! print*, 'm ', out_lue%m
+      print*, 'm ', out_lue%m
 
       ! XXX PMODEL_TEST: ok
-      ! print*, 'chi ', chi
+      print*, 'chi ', chi
 
       !-----------------------------------------------------------------------
       ! Calculate function return variables
@@ -601,9 +601,11 @@ contains
       ! Leaf-level assimilation rate (per unit leaf area), representative for top-canopy leaves
       assim_unitfapar = ppfd * lue  ! in mol m-2 s-1
 
-      ! ! XXX PMODEL_TEST: ok
-      ! print*, 'lue ', lue
-      ! print*, 'chi ', chi
+      ! XXX PMODEL_TEST: ok
+      print*, 'lue ', lue
+      print*, 'chi ', chi
+
+      stop
 
       ! leaf-internal CO2 partial pressure (Pa)
       ci = chi * ca
