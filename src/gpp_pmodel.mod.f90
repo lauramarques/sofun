@@ -526,6 +526,9 @@ contains
       gstar = calc_gstar( tc )
 
       ! XXX PMODEL_TEST: ok
+      print*,' tc     ', tc
+      print*,' patm   ', patm
+      print*,' elv    ', elv
       print*, 'gstar ', gstar
 
       ! Michaelis-Menten coef. (Pa)
@@ -604,8 +607,6 @@ contains
       ! XXX PMODEL_TEST: ok
       print*, 'lue ', lue
       print*, 'chi ', chi
-
-      stop
 
       ! leaf-internal CO2 partial pressure (Pa)
       ci = chi * ca

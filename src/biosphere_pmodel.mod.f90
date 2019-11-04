@@ -165,8 +165,9 @@ contains
                                   interface%grid(jpngr)%elv & 
                                   )
 
+        ! xxx debug
         print*,'out_pmodel(1,7)%lue: ', out_pmodel(1,7)%lue
-        stop 'test'
+        ! stop 'test'
 
         ! ! xxx trevortest
         ! interface%climate(jpngr)%dtemp(:) = 20.0

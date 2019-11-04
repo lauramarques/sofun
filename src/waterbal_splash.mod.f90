@@ -550,14 +550,14 @@ contains
     ! Eq. 11, Prentice et al. (1993); Eq. 5 and 6, Linacre (1968)
     out_evap%rnl = ( kb + (1.0 - kb ) * sf ) * ( kA - tc )
 
-    if (splashtest .and. doy==testdoy) print*,'net longwave radiation: ', out_evap%rnl
+    print*,'net longwave radiation: ', out_evap%rnl
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 11. Calculate variable substitute (rw), W/m^2
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     rw = ( 1.0 - kalb_sw ) * tau * kGsc * dr
     
-    if (splashtest .and. doy==testdoy) print*,'variable substitute, rw: ', rw
+    print*,'variable substitute, rw: ', rw
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 12. Calculate net radiation cross-over hour angle (hn), degrees
@@ -573,7 +573,7 @@ contains
       hn = degrees( acos((out_evap%rnl - rw*ru)/(rw*rv)) )   ! use acos with single precision compilation
     end if
 
-    if (splashtest .and. doy==testdoy) print*,'cross-over hour angle: ', hn
+    print*,'cross-over hour angle: ', hn
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 13. Calculate daytime net radiation (out_evap%rn), J/m^2
@@ -581,7 +581,7 @@ contains
     ! Eq. 53, SPLASH 2.0 Documentation
     out_evap%rn = (secs_per_day/pi) * (hn*(pi/180.0)*(rw*ru - out_evap%rnl) + rw*rv*dgsin(hn))
 
-    if (splashtest .and. doy==testdoy) print*,'daytime net radiation: ', out_evap%rn
+    print*,'daytime net radiation: ', out_evap%rn
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 14. Calculate nighttime net radiation (out_evap%rnn), J/m^2
@@ -590,32 +590,32 @@ contains
     ! adopted bugfix from Python version (iss#13)
     out_evap%rnn = (86400.0/pi)*(radians(rw*ru*(hs-hn)) + rw*rv*(dgsin(hs)-dgsin(hn)) - out_evap%rnl * (pi - radians(hn)))
 
-    if (splashtest .and. doy==testdoy) print*,'nighttime net radiation: ', out_evap%rnn
+    print*,'nighttime net radiation: ', out_evap%rnn
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 15. Calculate water-to-energy conversion (econ), m^3/J
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! Slope of saturation vap press temp curve, Pa/K
     s = sat_slope(tc)
-    if (splashtest .and. doy==testdoy) print*,'slope of saturation, s', s
+    print*,'slope of saturation, s', s
 
     ! Enthalpy of vaporization, J/kg
     lv = enthalpy_vap(tc)
-    if (splashtest .and. doy==testdoy) print*,'enthalpy of vaporization: ', lv
+    print*,'enthalpy of vaporization: ', lv
 
     ! Density of water, kg/m^3
     pw = density_h2o(tc, calc_patm(elv))
-    if (splashtest .and. doy==testdoy) print*,'water density at 1 atm calculated: ', pw
+    print*,'water density at 1 atm calculated: ', pw
 
     ! Psychrometric constant, Pa/K
-    if (splashtest .and. doy==testdoy) print*,'calculating psychrometric const. with (tc, elv): ', tc, elv
+    print*,'calculating psychrometric const. with (tc, elv): ', tc, elv
     g = psychro(tc, calc_patm(elv))
-    if (splashtest .and. doy==testdoy) print*,'calculating psychrometric const. with patm: ', calc_patm(elv)
-    if (splashtest .and. doy==testdoy) print*,'psychrometric constant: ', g
+    print*,'calculating psychrometric const. with patm: ', calc_patm(elv)
+    print*,'psychrometric constant: ', g
 
     ! Eq. 51, SPLASH 2.0 Documentation
     econ = s/(lv*pw*(s + g))
-    if (splashtest .and. doy==testdoy) print*,'Econ: ', Econ
+    print*,'Econ: ', Econ
 
     out_evap%econ = 1.0 / ( lv * pw ) ! this is to convert energy into mass (water)
 
@@ -626,28 +626,28 @@ contains
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! Eq. 68, SPLASH 2.0 Documentation
     out_evap%cn = 1000.0 * econ * abs(out_evap%rnn)
-    if (splashtest .and. doy==testdoy) print*,'daily condensation: ', out_evap%cn
+    print*,'daily condensation: ', out_evap%cn
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 17. Estimate daily EET (out_evap%eet), mm d-1
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! Eq. 70, SPLASH 2.0 Documentation
     out_evap%eet = 1000.0 * econ * out_evap%rn
-    if (splashtest .and. doy==testdoy) print*,'daily EET: ', out_evap%eet
+    print*,'daily EET: ', out_evap%eet
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 18. Estimate daily PET (out_evap%pet), mm d-1
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! Eq. 72, SPLASH 2.0 Documentation
     out_evap%pet   = ( 1.0 + kw ) * out_evap%eet
-    if (splashtest .and. doy==testdoy) print*,'daily PET: ', out_evap%pet
+    print*,'daily PET: ', out_evap%pet
     ! out_evap%pet_e = out_evap%pet / (econ * 1000)
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 19. Calculate variable substitute (rx), (mm/hr)/(W/m^2)
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     rx = 1000.0 * 3600.0 * ( 1.0 + kw ) * econ
-    if (splashtest .and. doy==testdoy) print*,'variable substitute, rx: ', rx
+    print*,'variable substitute, rx: ', rx
     
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 20. Calculate the intersection hour angle (hi), degrees
@@ -662,7 +662,7 @@ contains
     else
       hi = degrees(acos(cos_hi))
     end if
-    if (splashtest .and. doy==testdoy) print*,'intersection hour angle, hi: ', hi
+    print*,'intersection hour angle, hi: ', hi
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 21. Estimate daily AET (out_evap%aet), mm d-1
@@ -670,7 +670,8 @@ contains
     ! Eq. 81, SPLASH 2.0 Documentation
     out_evap%aet = (24.0/pi)*(radians(sw*hi) + rx*rw*rv*(dgsin(hn) - dgsin(hi)) + radians((rx*rw*ru - rx*out_evap%rnl)*(hn - hi)))
     ! out_evap%aet_e = out_evap%aet / (econ * 1000)
-    if (splashtest .and. doy==testdoy) print*,'daily AET set to: ', out_evap%aet
+    print*,'daily AET set to: ', out_evap%aet
+    stop 'waterbal()'
 
     ! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ! 22. Calculate Cramer-Prentice-Alpha, (unitless)
