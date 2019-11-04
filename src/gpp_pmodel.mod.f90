@@ -1141,6 +1141,15 @@ contains
     tk = tc + 273.15
 
     gstar = gs25 * exp( ( dha / kR ) * ( 1.0/298.15 - 1.0/tk ) )
+
+    print*,'calc_gammastar():'
+    print*,'    gs25_0      ', gs25
+    print*,'    patm0       ', calc_patm(0.0)  
+    print*,'    tk          ', tk        
+    print*,'    gammastar25 ', gs25   
+    print*,'    dha         ', dha
+    print*,'    ftemp       ', exp( ( dha / kR ) * ( 1.0/298.15 - 1.0/tk ) )
+
     
   end function calc_gstar
 
