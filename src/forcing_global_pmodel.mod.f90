@@ -730,7 +730,7 @@ contains
             out_climate(jpngr)%dtemp(doy) = temp_arr(ilon(jpngr),ilat(jpngr),dom) - 273.15  ! conversion from Kelving to Celsius
             out_climate(jpngr)%dprec(doy) = ( prec_arr(ilon(jpngr),ilat(jpngr),dom) + snow_arr(ilon(jpngr),ilat(jpngr),dom) ) * 60.0 * 60.0 * 24.0  ! kg/m2/s -> mm/day
             out_climate(jpngr)%dvpd(doy)  = calc_vpd( qair_arr(ilon(jpngr),ilat(jpngr),dom), out_climate(jpngr)%dtemp(doy), grid(jpngr)%elv )
-            
+
             ! optional input variables
             if (in_ppfd) then
               out_climate(jpngr)%dppfd(doy) = 1.0e-6 * rswd_arr(ilon(jpngr),ilat(jpngr),dom) * 60.0 * 60.0 * 24.0 * kfFEC ! W m-2 -> mol m-2 d-1
@@ -760,6 +760,15 @@ contains
           end if
 
         end do gridcellloop
+
+        print*,'VPD calculation in forcing: '
+        print*,'moy                                   ', moy
+        print*,'dom                                   ', dom
+        print*,'qair_arr(ilon(10000),ilat(10000),1 )  ', qair_arr(ilon(10000),ilat(10000),1)
+        print*,'out_climate(10000)%dtemp(1)           ', out_climate(10000)%dtemp(1)
+        print*,'grid(10000)%elv                       ', grid(10000)%elv
+        print*,'out_climate(10000)%dvpd(1)            ', out_climate(10000)%dvpd(1)
+        stop
 
       end do domloop
 
