@@ -956,7 +956,12 @@ contains
     ! function return value
     real ::  patm ! atmospheric pressure (Pa)
 
-    patm = kPo * (1.0 - kL*elv/kTo)**(kG*kMa*1e-3/(kR*kL))
+    ! ! old:
+    ! patm = kPo * (1.0 - kL*elv/kTo)**(kG*kMa*1e-3/(kR*kL))
+
+    ! new:
+    patm = kPo * (1.0 - kL * elv / kTo) ** (kG * kMa * 1.e-3 / (kR * kL))
+    
 
     print*,'calc_patm():'
     print*,'kPo   ', kPo
@@ -966,7 +971,7 @@ contains
     print*,'kG    ', kG
     print*,'kMa   ', kMa
     print*,'kR    ', kR
-    stop
+    ! stop
 
   end function calc_patm
 
