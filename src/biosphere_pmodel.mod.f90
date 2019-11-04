@@ -44,7 +44,7 @@ contains
     integer :: dm, moy, jpngr, doy
 
     ! xxx verbose
-    logical, parameter :: verbose = .false.
+    logical, parameter :: verbose = .true.
     logical, parameter :: splashtest = .false.
     integer, parameter :: lev_splashtest = 2
     integer, parameter :: testdoy = 55
@@ -110,8 +110,9 @@ contains
     ! LOOP THROUGH GRIDCELLS
     !----------------------------------------------------------------
     print*,'looping through gridcells ...'
-    gridcellloop: do jpngr=1,size(interface%grid)
-    ! gridcellloop: do jpngr=48790,48790   ! negative PET in january 2010
+    ! gridcellloop: do jpngr=1,size(interface%grid)
+    gridcellloop: do jpngr=10000,10000
+
       if (interface%grid(jpngr)%dogridcell) then
 
         if (verbose) print*,'----------------------'
@@ -154,8 +155,8 @@ contains
         !----------------------------------------------------------------
         if (verbose) print*,'calling getlue() ... '
         if (verbose) print*,'    with argument CO2  = ', interface%pco2
-        if (verbose) print*,'    with argument temp.= ', interface%climate(jpngr)%dtemp(:)
-        if (verbose) print*,'    with argument VPD  = ', interface%climate(jpngr)%dvpd(:)
+        if (verbose) print*,'    with argument temp. (ann. mean) = ', sum(interface%climate(jpngr)%dtemp(:)) / ndayyear
+        if (verbose) print*,'    with argument VPD   (ann. mean) = ', sum(interface%climate(jpngr)%dvpd(:) ) / ndayyear
         if (verbose) print*,'    with argument elv. = ', interface%grid(jpngr)%elv
         out_pmodel(:,:) = getlue( &
                                   interface%pco2, & 
@@ -163,6 +164,10 @@ contains
                                   interface%climate(jpngr)%dvpd(:), & 
                                   interface%grid(jpngr)%elv & 
                                   )
+
+        print*,'out_pmodel(1,7)%lue: ', out_pmodel(1,7)%lue
+        stop 'test'
+
         ! ! xxx trevortest
         ! interface%climate(jpngr)%dtemp(:) = 20.0
         ! interface%climate(jpngr)%dvpd(:) = 1000.0

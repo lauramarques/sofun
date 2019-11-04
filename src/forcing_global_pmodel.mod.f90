@@ -809,8 +809,9 @@ contains
     real :: tmp
     character(len=5) :: recname = "tstep"
     integer, parameter :: firstyr_cru = 1901
-    integer, parameter :: nyrs_cru = 114
-    character(len=256), parameter :: filnam = './input/global/climate/ccov/cru_ts3.23.1901.2014.cld.dat.nc'
+    integer, parameter :: nyrs_cru = 116
+    ! character(len=256), parameter :: filnam = './input/global/climate/ccov/cru_ts3.23.1901.2014.cld.dat.nc'
+    character(len=256), parameter :: filnam = './input/global/climate/ccov/cru_ts4.01.1901.2016.cld.dat.nc'
 
     if (domaininfo%maxgrid>100000) stop 'problem for ilon and ilat length'
 
